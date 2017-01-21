@@ -17,9 +17,7 @@ var config = require('./configure.js')
 // var config = require('./configure.js') // For sql database (cloud)
 
 app.get('/', function(req, res){
-	res.status(200).send("hello world bitch");
-
-
+	res.status(200).send("This is the landing page");
 });
 
 
