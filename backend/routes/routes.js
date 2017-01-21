@@ -30,8 +30,7 @@ module.exports = function (app) {
 		console.log(name)
 		console.log(age)
 
-		var sql = "INSERT INTO test SET Name = "  + name + ", Age = " + age;
-		sql = "INSERT INTO test SET `Name` = 'Brad', `Age` = '177'"
+		var sql = "INSERT INTO test SET Name = " + name + ", Age = " + age;
 
 		connection.connect();
 		var query = connection.query(sql, function(err, result) {
