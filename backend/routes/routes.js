@@ -1,4 +1,5 @@
 var appMain = require('../app.js')
+// var myParser = require("body-parser");
 
 module.exports = function (app) {
     // set up the routes themselves
@@ -13,4 +14,9 @@ module.exports = function (app) {
 		appMain.sendMessageToUser("travis", "test test test");
 
 	});
+
+	app.post('/signup', function(req, res){
+		console.log(req.query)
+		res.status(200).send("Successfully signed up!")
+	})
 };
