@@ -24,16 +24,40 @@ module.exports = function (app) {
 	});
 
 	app.post('/signup', upload.array(), function(req, res){
-		var name = mysql.escape(req.body.Name)
-		var age = mysql.escape(req.body.Age)
+		// create table users(
+		// id INT AUTO_INCREMENT,
+		// Name VARCHAR(40),
+		// Email VARCHAR(40),
+		// Password VARCHAR(100),
+		// Country VARCHAR(40),
+		// CountryCode VARCHAR(10),
+		// DesiredCountry VARCHAR(40),
+		// DesiredCountryCode VARCHAR(10),
+		// Interest VARCHAR(40),
+		// Token VARCHAR(60),
+		// PRIMARY KEY (id));
 
 		console.log(name)
 		console.log(age)
 
-		var sql = "INSERT INTO test SET Name = " + name + ", Age = " + age;
+		var sql = "INSERT INTO test SET Name = ?, Email = ?, Password = ?, \
+					Country = ?, CountryCode = ?, DesiredCountry = ?, \
+					DesiredCountryCode = ?, Interest = ?, Token = ?";
+
+		var params = [
+			req.body.Name,
+			req.body.Email,
+			req.body.Password, //need to hash/salt
+			req.body.Country,
+			req.body.CountryCode,
+			req.body.DesiredCountry,
+			req.body.DesiredCountryCode,
+			req.body.Interest,
+			req.body.Token
+		]
 
 		connection.connect();
-		var query = connection.query(sql, function(err, result) {
+		var query = connection.query(sql, params, function(err, result) {
 			if (!err) {
 				console.log('User signed up')
 			} else{
