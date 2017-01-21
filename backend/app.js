@@ -6,7 +6,7 @@ var request = require('request');
 var config = require('./configure.js')
 const Translate = require('@google-cloud/translate');
 var FCM = require('fcm-node'); 
-
+var crypto = require('crypto');
 
 
 
@@ -87,3 +87,32 @@ function translateText(input, target_lang){
 	});
 }
 exports.translateText = translateText;
+
+
+function genRandomString(length){
+    return crypto.randomBytes(Math.ceil(length/2))
+            .toString('hex') /** convert to hexadecimal format */
+            .slice(0,length);   /** return required number of characters */
+};
+
+
+function hash(password, salt){
+	var res = crypto.createHmac('sha512', salt);
+	res.update(password);
+	var value = res.digest('hex');
+	return {
+		salt : salt,
+		passwordHash:value
+	}
+
+}
+
+function saltHash(userpassword){
+	var salt = genRandomString(16);
+	var passwordData = hash(userpassword, salt);
+	console.log('UserPassword = '+userpassword);
+    console.log('Passwordhash = '+passwordData.passwordHash);
+    console.log('\nSalt = '+passwordData.salt);
+}
+
+exports.saltHash = saltHash;
