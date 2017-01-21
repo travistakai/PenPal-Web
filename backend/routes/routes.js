@@ -3,6 +3,9 @@ var config = require('../configure.js')
 var multer  = require('multer')
 var upload = multer()
 var mysql = require('mysql');
+var crypto = require('crypto');
+
+
 
 var connection = mysql.createConnection({
 	host     : config.HOST,
@@ -69,3 +72,5 @@ module.exports = function (app) {
 		res.status(200).send("Successfully signed up!")
 	});
 };
+
+
