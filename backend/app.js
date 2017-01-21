@@ -38,7 +38,7 @@ app.listen(config.PORT, function(){
 
 
 
-module.exports = function sendMessageToUser(user, message){
+exports.sendMessageToUser = function(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',
