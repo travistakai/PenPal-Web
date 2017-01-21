@@ -1,5 +1,7 @@
 var appMain = require('../app.js')
-// var myParser = require("body-parser");
+var multer  = require('multer')
+var upload = multer()
+// var bodyParser = require("body-parser");
 
 module.exports = function (app) {
     // set up the routes themselves
@@ -16,7 +18,14 @@ module.exports = function (app) {
 	});
 
 	app.post('/signup', function(req, res){
-		console.log(req.query)
+		console.log(req.body)
 		res.status(200).send("Successfully signed up!")
 	})
+
+	//Example POST request with dd of data
+	// app.post('/profile', upload.array(), function (req, res, next) {
+	// // req.body contains the text fields
+	// 	console.log(req.body)
+	// 	res.status(200).send("Successfully signed up!")
+	// })
 };
