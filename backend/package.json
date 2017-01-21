@@ -12,6 +12,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "@google-cloud/translate": "^0.6.1",
     "express": "4.0.0",
     "fcm": "^1.0.3",
     "multer": "^1.2.1",

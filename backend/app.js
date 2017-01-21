@@ -33,7 +33,7 @@ require("./routes/routes.js")(app);
 
 
 app.listen(config.PORT, function(){
-	console.log("Listening on port 8080");
+	console.log("Listening on port 8081");
 });
 
 
@@ -63,4 +63,34 @@ exports.sendMessageToUser = function(user, message){
 		}
 	});
 
+}
+
+exports.translateMyAss = function(input, target) {
+  // The text to translate, e.g.:
+  // input = 'Hello, world';
+  // The target language, e.g.:
+  // target = 'ru';
+
+  if (!Array.isArray(input)) {
+    input = [input];
+  }
+
+  // Instantiates a client
+  const translate = Translate();
+
+  // Translates the text into the target language. "input" can be a string for
+  // translating a single piece of text, or an array of strings for translating
+  // multiple texts.
+  return translate.translate(input, target)
+    .then((results) => {
+      let translations = results[0];
+      translations = Array.isArray(translations) ? translations : [translations];
+
+      console.log('Translations:');
+      translations.forEach((translation, i) => {
+        console.log(`${input[i]} => (${target}) ${translation}`);
+      });
+
+      return translations;
+    });
 }
