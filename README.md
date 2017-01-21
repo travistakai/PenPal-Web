@@ -1,12 +1,12 @@
-# Pe0nPal
+# PenPal
 HackUCSC 2017 Project
 
 
 Collaborators: 
-	Aidan Gradberry
-	Chris Hsiao
-	Daniel Thurau
-	Travis Takai
+	Aidan Gradberry,
+	Chris Hsiao,
+	Daniel Thurau,
+	Travis Takai,
 
 
 Goals:
