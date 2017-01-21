@@ -24,8 +24,8 @@ module.exports = function (app) {
 	});
 
 	app.post('/signup', upload.array(), function(req, res){
-		var name = connection.escape(req.body.Name)
-		var age = connection.escape(req.body.Age)
+		var name = mysql.escape(req.body.Name)
+		var age = mysql.escape(req.body.Age)
 
 		console.log(name)
 		console.log(age)

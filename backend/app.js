@@ -9,6 +9,7 @@ var FCM = require('fcm-node');
 
 
 
+
 const serverKey = config.SK;
 
 var fcm = new FCM(serverKey);
@@ -32,8 +33,7 @@ app.listen(config.PORT, function(){
 
 console.log(translateText('Hello, World', 'ru'));
 
-//Functions used by the routes.js file
-exports.sendMessageToUser = function(user, message){
+function sendMessageToUser(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',
@@ -63,7 +63,7 @@ exports.sendMessageToUser = sendMessageToUser;
 
 
 function translateText(input, target){
-Svar request = require('request');
+var request = require('request');
   request.post({
     url: "https://www.googleapis.com/language/translate/v2?",
     headers: {"X-HTTP-Method-Override": "GET"},
