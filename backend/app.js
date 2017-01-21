@@ -14,10 +14,6 @@ var serverKey = config.SK;
 var fcm = new FCM(serverKey);
 
 
-
-
-
-
 app.use(express.static('public'));
 
 
@@ -31,26 +27,12 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 require("./routes/routes.js")(app);
 
-
-// app.get('/', function(req, res){
-// 	res.status(200).send("This is the landing page");
-// });
-
-
-// app.get('/messaging', function(req, res){
-// 	res.status(200).send("Thus is me sending a message");
-
-// 	sendMessageToUser("travis", "test test test");
-
-// });
-
-
 app.listen(config.PORT, function(){
 	console.log("Listening on port 8080");
 });
 
 
-
+//Functions used by the routes.js file
 exports.sendMessageToUser = function(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
