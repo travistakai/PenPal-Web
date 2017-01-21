@@ -21,14 +21,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-// var config = require('./configure.js') // For sql database (cloud)
-
-
 
 require("./routes/routes.js")(app);
 
 app.listen(config.PORT, function(){
-	console.log("Listening on port 8081");
+	console.log("Listening on port ${config.PORT}");
 });
 
 

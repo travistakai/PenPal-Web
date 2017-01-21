@@ -1,7 +1,15 @@
 var appMain = require('../app.js')
+var config = require('../configure.js')
 var multer  = require('multer')
 var upload = multer()
-// var bodyParser = require("body-parser");
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+	host     : config.HOST,
+	user     : config.USER,
+	password : config.PASSWORD,
+	database : config.DB
+});
 
 module.exports = function (app) {
     // set up the routes themselves
@@ -16,7 +24,25 @@ module.exports = function (app) {
 	});
 
 	app.post('/signup', upload.array(), function(req, res){
-		console.log(req.body)
+		var name = connection.escape(req.body.Name)
+		var age = connection.escape(req.body.Age)
+
+		console.log(name)
+		console.log(age)
+
+		var sql = "INSERT INTO test SET Name = "  + name + ", Age = " + age;
+		sql = "INSERT INTO test SET `Name` = 'Brad', `Age` = '177'"
+
+		connection.connect();
+		var query = connection.query(sql, function(err, result) {
+			if (!err) {
+				console.log('User signed up')
+			} else{
+				console.log('Error inserting into table: ', query.sql)
+			}
+		});
+		connection.end();
+
 		res.status(200).send("Successfully signed up!")
-	})
+	});
 };
