@@ -32,19 +32,6 @@ app.use(express.static('public'));
 require("./routes/routes.js")(app);
 
 
-// app.get('/', function(req, res){
-// 	res.status(200).send("This is the landing page");
-// });
-
-
-// app.get('/messaging', function(req, res){
-// 	res.status(200).send("Thus is me sending a message");
-
-// 	sendMessageToUser("travis", "test test test");
-
-// });
-
-
 app.listen(config.PORT, function(){
 	console.log("Listening on port 8080");
 });
@@ -68,7 +55,7 @@ exports.sendMessageToUser = function(user, message){
 		)
 	}, function(error, response, body){
 		if(error){
-			console.log(error, response. body);
+			console.log(error, response, body);
 		}else if(response.statusCode >= 400){
 			console.error('HTTP Error: ' + response.statusCode+' -'+response.statusMessage+'\n'+body);
 		}else{
