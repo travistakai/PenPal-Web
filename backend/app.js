@@ -4,14 +4,16 @@ var path = require('path');
 var fs = require('fs');
 var request = require('request');
 var config = require('./configure.js')
-
-
-
-
+const Translate = require('@google-cloud/translate');
 var FCM = require('fcm-node'); 
 
-var serverKey = config.SK;
+
+
+const serverKey = config.SK;
+
 var fcm = new FCM(serverKey);
+
+const api_key = config.APIKEY;
 
 
 app.use(express.static('public'));
@@ -28,6 +30,7 @@ app.listen(config.PORT, function(){
 	console.log("Listening on port ${config.PORT}");
 });
 
+console.log(translateText('Hello, World', 'ru'));
 
 //Functions used by the routes.js file
 exports.sendMessageToUser = function(user, message){
@@ -54,35 +57,27 @@ exports.sendMessageToUser = function(user, message){
 			console.log('Done!');
 		}
 	});
-
 }
+exports.sendMessageToUser = sendMessageToUser;
 
-exports.translateMyAss = function(input, target) {
-  // The text to translate, e.g.:
-  // input = 'Hello, world';
-  // The target language, e.g.:
-  // target = 'ru';
 
-  if (!Array.isArray(input)) {
-    input = [input];
-  }
 
-  // Instantiates a client
-  const translate = Translate();
-
-  // Translates the text into the target language. "input" can be a string for
-  // translating a single piece of text, or an array of strings for translating
-  // multiple texts.
-  return translate.translate(input, target)
-    .then((results) => {
-      let translations = results[0];
-      translations = Array.isArray(translations) ? translations : [translations];
-
-      console.log('Translations:');
-      translations.forEach((translation, i) => {
-        console.log(`${input[i]} => (${target}) ${translation}`);
-      });
-
-      return translations;
-    });
+function translateText(input, target){
+Svar request = require('request');
+  request.post({
+    url: "https://www.googleapis.com/language/translate/v2?",
+    headers: {"X-HTTP-Method-Override": "GET"},
+    form: {
+      key: api_key,
+      target: "en",
+      q: ["Mon premier essai", "Mon second essai"]
+    }
+  }, function(error, response, data) {
+    if (!error && response.statusCode == 200) {
+      console.log("everything works fine");
+    } else {
+      console.log("something went wrong")
+    }
+  });
 }
+exports.translateText = translateText;
