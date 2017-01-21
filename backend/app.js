@@ -27,17 +27,22 @@ app.use(express.static('public'));
 
 // var config = require('./configure.js') // For sql database (cloud)
 
-app.get('/', function(req, res){
-	res.status(200).send("This is the landing page");
-});
 
 
-app.get('/messaging', function(req, res){
-	res.status(200).send("Thus is me sending a message");
+require("./routes/routes.js")(app);
 
-	sendMessageToUser("travis", "test test test");
 
-});
+// app.get('/', function(req, res){
+// 	res.status(200).send("This is the landing page");
+// });
+
+
+// app.get('/messaging', function(req, res){
+// 	res.status(200).send("Thus is me sending a message");
+
+// 	sendMessageToUser("travis", "test test test");
+
+// });
 
 
 app.listen(config.PORT, function(){
@@ -46,7 +51,7 @@ app.listen(config.PORT, function(){
 
 
 
-function sendMessageToUser(user, message){
+module.exports = function sendMessageToUser(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',

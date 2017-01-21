@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "express": "4.0.0",
+    "fcm": "^1.0.3",
     "request": "^2.79.0"
   }
 }
