@@ -21,9 +21,9 @@ var fcm = new FCM(serverKey);
 app.use(express.static('public'));
 
 
-// var bodyParser = require('body-parser');
-// app.use(bodyParser.json()); // support json encoded bodies
-// app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // var config = require('./configure.js') // For sql database (cloud)
 
