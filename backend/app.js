@@ -34,6 +34,7 @@ app.listen(config.PORT, function(){
 console.log(translateText('Hello, World', 'ru'));
 
 //Functions used by the routes.js file
+//Functions used by the routes.js file
 function sendMessageToUser(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
@@ -61,6 +62,8 @@ function sendMessageToUser(user, message){
 }
 exports.sendMessageToUser = sendMessageToUser;
 
+
+
 function translateText(input, target_lang){
 	if (!Array.isArray(input)) {
 		input = [input];
@@ -77,6 +80,7 @@ function translateText(input, target_lang){
 	}, function(error, response, data) {
 	    if (!error && response.statusCode == 200) {
 	    	console.log(data);
+	    	return data;
 	    } else {
 	    	console.log("something went wrong")
 	    }
