@@ -33,7 +33,7 @@ app.listen(config.PORT, function(){
 console.log(translateText('Hello, World', 'ru'));
 
 //Functions used by the routes.js file
-exports.sendMessageToUser = function(user, message){
+function sendMessageToUser(user, message){
 	request({
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',
@@ -62,22 +62,25 @@ exports.sendMessageToUser = sendMessageToUser;
 
 
 
-function translateText(input, target){
-Svar request = require('request');
-  request.post({
-    url: "https://www.googleapis.com/language/translate/v2?",
-    headers: {"X-HTTP-Method-Override": "GET"},
-    form: {
-      key: api_key,
-      target: "en",
-      q: ["Mon premier essai", "Mon second essai"]
-    }
-  }, function(error, response, data) {
-    if (!error && response.statusCode == 200) {
-      console.log("everything works fine");
-    } else {
-      console.log("something went wrong")
-    }
-  });
+function translateText(input, target_lang){
+	if (!Array.isArray(input)) {
+		input = [input];
+	}
+	var request = require('request');
+	request.post({
+		url: "https://www.googleapis.com/language/translate/v2?",
+	    headers: {"X-HTTP-Method-Override": "GET"},
+	    form: {
+	    	key: api_key,
+	    	target: target_lang,
+	    	q: input
+	    }
+	}, function(error, response, data) {
+	    if (!error && response.statusCode == 200) {
+	    	console.log(data);
+	    } else {
+	    	console.log("something went wrong")
+	    }
+	});
 }
 exports.translateText = translateText;
