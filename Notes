@@ -1,0 +1,22 @@
+Priorities:
+	-Get basic login/signup with email and password (hashed and salted)
+	-Fill out basic profile including:
+		-Name
+		-Age
+		-Native Country (maybe more specific)
+		-Native language
+		-Desired Country
+		-Interest(s)
+	-P2P messaging (starting a conversation)
+		-Person shares interests with you, and if not then use Desired Country only
+		-Translating language as we go
+		-Storing previous conversations
+		-Creating and sending new messages
+		-Receiving messages
+
+Extras:
+	-Editing profile settings (interests and desired country)
+	-Push Notifications
+	-Authentication (G+, JWT, OAuth)
+	-UI Shit
+	-Language Learning?
