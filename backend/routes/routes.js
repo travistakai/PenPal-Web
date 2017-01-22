@@ -26,31 +26,36 @@ module.exports = function (app) {
 
 	});
 
+	app.post('/login', upload.array(), function(req, res){
+		var sql = "SELECT * FROM users WHERE Email = ? AND Password = ?"
+
+		var params = [
+			req.body.Email,
+			appMain.hash(req.body.Password, config.SALT).passwordHash
+		]
+
+		// console.log(params)
+		var query = connection.query(sql, params, function(err, rows) {
+			console.log(rows)
+			if(!err) {
+				res.status(200).send("Successfully logged in!")
+			} else {
+				res.status(403).send("Incorrect password, try again:")
+				// console.log(query)
+			}
+		});
+	})
+
 	app.post('/signup', upload.array(), function(req, res){
-		// create table users(
-		// id INT AUTO_INCREMENT,
-		// Name VARCHAR(40),
-		// Email VARCHAR(40),
-		// Password VARCHAR(100),
-		// Country VARCHAR(40),
-		// CountryCode VARCHAR(10),
-		// DesiredCountry VARCHAR(40),
-		// DesiredCountryCode VARCHAR(10),
-		// Interest VARCHAR(40),
-		// Token VARCHAR(60),
-		// PRIMARY KEY (id));
 
-		console.log(name)
-		console.log(age)
-
-		var sql = "INSERT INTO test SET Name = ?, Email = ?, Password = ?, \
+		var sql = "INSERT INTO users SET Name = ?, Email = ?, Password = ?, \
 					Country = ?, CountryCode = ?, DesiredCountry = ?, \
-					DesiredCountryCode = ?, Interest = ?, Token = ?";
+					DesiredCountryCode = ?, Interest = ?, Token = ?"
 
 		var params = [
 			req.body.Name,
 			req.body.Email,
-			req.body.Password, //need to hash/salt
+			appMain.hash(req.body.Password, config.SALT).passwordHash,
 			req.body.Country,
 			req.body.CountryCode,
 			req.body.DesiredCountry,
@@ -59,7 +64,7 @@ module.exports = function (app) {
 			req.body.Token
 		]
 
-		connection.connect();
+		console.log(params)
 		var query = connection.query(sql, params, function(err, result) {
 			if (!err) {
 				console.log('User signed up')
@@ -67,10 +72,8 @@ module.exports = function (app) {
 				console.log('Error inserting into table: ', query.sql)
 			}
 		});
-		connection.end();
 
 		res.status(200).send("Successfully signed up!")
 	});
 };
-
 

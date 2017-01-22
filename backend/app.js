@@ -102,10 +102,11 @@ function hash(password, salt){
 	var value = res.digest('hex');
 	return {
 		salt : salt,
-		passwordHash:value
+		passwordHash: value
 	}
-
 }
+
+exports.hash = hash;
 
 function saltHash(userpassword){
 	var salt = genRandomString(16);
