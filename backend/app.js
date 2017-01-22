@@ -32,8 +32,6 @@ app.listen(config.PORT, function(){
 	console.log('I love Brad');
 });
 
-
-//Functions used by the routes.js file
 //Functions used by the routes.js file
 function sendMessageToUser(user, message){
 	request({
