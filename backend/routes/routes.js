@@ -78,6 +78,40 @@ module.exports = function (app) {
 		res.status(200).send("Successfully signed up!")
 	});
 
+	app.post('/getConnection', upload.array(), function(req, res) {
+		var sql = "SELECT * FROM users WHERE id = ?"
+
+		var params = [
+			req.body.FromId
+		]
+
+		var query = connection.query(sql, params, function(err, result) {
+			if (!err) {
+				console.log(result[0]['Interest'])
+
+				params = [
+					result[0]['Interest'],
+					result[0]['DesiredCountry']
+				]
+
+				sql = "SELECT Name, Country, Interest, Token FROM users WHERE Interest = ? AND Country = ? ORDER BY RAND() LIMIT 1"
+
+				connection.query(sql, params, function(err, result) {
+					if (!err) {
+						console.log(result[0])
+						res.status(200).send(result[0])
+					} else {
+						console.log('Error retrieving from table: ', query.sql)
+					}
+				});
+			} else {
+				console.log('Error retrieving from table: ', query.sql)
+				res.status(400).send("No matches found")
+				return;
+			}
+		});
+	})
+
 
 	app.post('/messagepost', function(req, res){
 		// console.log(res.body); // json
