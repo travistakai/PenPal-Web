@@ -38,7 +38,7 @@ function sendMessageToUser(user, message){
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',
 		headers: {
-			'Content-Type' : 'applicatio/json',
+			'Content-Type' : 'application/json',
 			'Authorization' : 'key=' + serverKey
 		},
 		body : JSON.stringify(

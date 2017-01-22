@@ -80,34 +80,42 @@ module.exports = function (app) {
 
 	app.post('/getConnection', upload.array(), function(req, res) {
 		var sql = "SELECT * FROM users WHERE id = ?"
-
 		var params = [
 			req.body.FromId
 		]
 
 		var query = connection.query(sql, params, function(err, result) {
 			if (!err) {
-				console.log(result[0]['Interest'])
-
 				params = [
-					result[0]['Interest'],
-					result[0]['DesiredCountry']
+					result[0]['DesiredCountry'],
+					result[0]['id'],
+					result[0]['Interest']
 				]
 
-				sql = "SELECT Name, Country, Interest, Token FROM users WHERE Interest = ? AND Country = ? ORDER BY RAND() LIMIT 1"
+				sql = "SELECT Name, Country, Interest, Token FROM users WHERE Country = ? AND id NOT IN ?\
+						 AND Interest = ? ORDER BY RAND() LIMIT 1"
 
-				connection.query(sql, params, function(err, result) {
+				query = connection.query(sql, params, function(err, result) {
 					if (!err) {
-						console.log(result[0])
 						res.status(200).send(result[0])
 					} else {
-						console.log('Error retrieving from table: ', query.sql)
+						params.pop()
+
+						sql = "SELECT Name, Country, Interest, Token FROM users WHERE Country = ?\
+								 AND id NOT IN (?) ORDER BY RAND() LIMIT 1"
+						
+						query = connection.query(sql, params, function(err, result) {
+							if (!err && typeof result[0] != 'undefined') {
+								res.status(200).send(result[0])
+							} else {
+								console.log('Error retrieving from table: ', query.sql)
+								res.status(501).send("No matches found")
+							}
+						});
 					}
 				});
 			} else {
-				console.log('Error retrieving from table: ', query.sql)
-				res.status(400).send("No matches found")
-				return;
+				res.status(501).send("No matches found")
 			}
 		});
 	})
