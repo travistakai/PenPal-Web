@@ -31,7 +31,6 @@ app.listen(config.PORT, function(){
 	console.log("Listening on port ${config.PORT}");
 });
 
-console.log(translateText('Hello, World', 'ru'));
 
 //Functions used by the routes.js file
 //Functions used by the routes.js file
@@ -77,12 +76,14 @@ function translateText(input, target_lang){
 	    	target: target_lang,
 	    	q: input
 	    }
-	}, function(error, response, data) {
+	}, function(error, response, results) {
 	    if (!error && response.statusCode == 200) {
-	    	console.log(data);
-	    	return data;
+	    	var jsoncontent = JSON.parse(results);
+	    	return jsoncontent.data.translations[0].translatedText;
 	    } else {
+	    	console.log(error);
 	    	console.log("something went wrong")
+	    	return null;
 	    }
 	});
 }
@@ -111,9 +112,6 @@ exports.hash = hash;
 function saltHash(userpassword){
 	var salt = genRandomString(16);
 	var passwordData = hash(userpassword, salt);
-	console.log('UserPassword = '+userpassword);
-    console.log('Passwordhash = '+passwordData.passwordHash);
-    console.log('\nSalt = '+passwordData.salt);
 }
 
 exports.saltHash = saltHash;
