@@ -1,0 +1,7 @@
+{
+  "GCLOUD_PROJECT": "penpal-ucsc",
+  "CLOUD_BUCKET": "penpal-ucsc.bucket",
+  "OAUTH2_CLIENT_ID": "07427695658-h569ajpiqrh3ol5clvke3jj8biaf0u32.apps.googleusercontent.com",
+  "OAUTH2_CLIENT_SECRET": "rKr_6gOoEB29jK8dFYaYYq1K",
+  "OAUTH2_CALLBACK": "http://localhost:8083/auth/google/callback"
+}
