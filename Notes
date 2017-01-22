@@ -1,21 +1,21 @@
 Priorities:
-	-Get basic login/signup with email and password (hashed and salted)
-	-Fill out basic profile including:
+	-Get basic login/signup with email and password (hashed and salted) (COMPLETED)
+	-Fill out basic profile including: (COMPLETED)
 		-Name
 		-Age
-		-Native Country (and code)
-		-Native language
-		-Desired Country (and code)
+		-Native Country
+		-Native language  <- converted to 
+		-Desired CountrY
 		-Interest
 	-P2P messaging (starting a conversation)
-		-Person shares interests with you, and if not then use Desired Country only
-		-Translating language as we go
-		-Storing previous conversations
-		-Creating and sending new messages
-		-Receiving messages
+		-Person shares interests with you, and if not then use Desired Country only (TABLE JOINS DONE)
+		-Translating language as we go (COMPLETED)
+		-Storing previous conversations (IOS LOCALLY USING MESSAGE OBJ'S)
+		-Creating and sending new messages (CREATING MESSAGES DONE LOCALLY IOS; BACKEND CAN RECIEVE, REDIRECT, TRANSLATE, SEND)
+		-Receiving messages (JSON FORMAT, WAITING ON PUSH TO IOS: NODEJS -> FIREBASE -> APNS -/-> IOS)
 
 Extras:
 	-Editing profile settings (interests and desired country)
-	-Push Notifications
-	-Authentication (G+, JWT, OAuth)
-	-Language Learning?
+	-Push Notifications (NEARLY COMPLETE)
+	-Authentication (G+, JWT, OAuth) (OAUTH DONE FOR API KEYS)
+	-Language Learning? (ML PLATFORM USED ON DETECTION FOR LANGUGE CODE (orginal lang))
