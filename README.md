@@ -10,6 +10,6 @@ Collaborators:
 
 
 Goals:
-	Create an app using Google's App Engine and mutiple Google APIs that 
+	Create an app using Google App Engine and mutiple Google APIs that 
 	seemlessly connects people from other countries while removing
 	the language barrier that restricts so many of those interactions.
