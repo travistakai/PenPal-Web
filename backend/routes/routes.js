@@ -5,12 +5,7 @@ var upload = multer()
 var mysql = require('mysql');
 var crypto = require('crypto');
 
-var pool  = mysql.createPool({
- host     : config.HOST,
-	user     : config.USER,
-	password : config.PASSWORD,
-	database : config.DB
-});
+
 
 var connection = mysql.createConnection({
 	host     : config.HOST,
@@ -92,7 +87,7 @@ module.exports = function (app) {
 				date_time_sent : date
 		*/
 		//--------------------------------------------------------------------------------------------
-		// var jsoncontent = JSON.parse(response.body);
+		var jsoncontent = JSON.parse(response.body);
 
 		var jsoncontent = {
 			to_id : "7",
@@ -101,33 +96,13 @@ module.exports = function (app) {
 			date_time_sent : "10/10/10"
 		};
 
-
-		// connection.query('SELECT * FROM users WHERE id=' + connection.escape(jsoncontent.to_id), function(err, rows){
-			connection.query('SELECT * FROM users WHERE id=1', function(err, rows){
+		connection.query('SELECT * FROM users WHERE id=' + connection.escape(jsoncontent.to_id), function(err, rows){
+			// connection.query('SELECT * FROM users WHERE id=1', function(err, rows){
 			if(err){
 				console.log("Error slected from DB: line 98");
 			}else{
 				native_lang = rows[0].CountryCode;
-				// translated_message = appMain.translateText(jsoncontent.content);
-				// var data = {};
-				// var key = 'Message'
-				// data[key] = [];
-				// var vals = {
-				// 	to_id : jsoncontent.to_id,
-				// 	from_id : jsoncontent.from_id,
-				// 	content : translated_message,
-				// 	date_time_sent : jsoncontent.date_time_sent
-				// };
-				// data[key].push(vals);
-				// appMain.sendMessageToUser(rows[0].Token, JSON.stringify(data));
-				translated_message = appMain.translateText("Bonjour", 'en');
-
-				if(translated_message==null){
-					return null;
-					console.log("herree")
-				}
-				console.log(translated_message)
-				console.log("hereee")
+				translated_message = appMain.translateText(jsoncontent.content);
 				var data = {};
 				var key = 'Message'
 				data[key] = [];
@@ -139,18 +114,8 @@ module.exports = function (app) {
 				};
 				data[key].push(vals);
 				appMain.sendMessageToUser(rows[0].Token, JSON.stringify(data));
-
-
-
-
-
 			}
 		});
-		
-		
-
 	});
-
-
 };
 

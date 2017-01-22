@@ -79,7 +79,9 @@ function translateText(input, target_lang){
 	}, function(error, response, results) {
 	    if (!error && response.statusCode == 200) {
 	    	var jsoncontent = JSON.parse(results);
-	    	return jsoncontent.data.translations[0].translatedText;
+	    	var content = jsoncontent.data.translations[0].translatedText;
+	    	console.log(content)
+	    	return content;
 	    } else {
 	    	console.log(error);
 	    	console.log("something went wrong")
