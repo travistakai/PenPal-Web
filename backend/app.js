@@ -73,7 +73,7 @@ function sendMessageToUser(user, message){
 exports.sendMessageToUser = sendMessageToUser;
 
 
-
+// Google API function to translate messages in real time
 function translateText(input, target_lang){
 	if (!Array.isArray(input)) {
 		input = [input];
