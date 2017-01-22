@@ -5,8 +5,6 @@ var upload = multer()
 var mysql = require('mysql');
 var crypto = require('crypto');
 
-
-
 var connection = mysql.createConnection({
 	host     : config.HOST,
 	user     : config.USER,
@@ -23,8 +21,12 @@ module.exports = function (app) {
 	app.get('/messaging', function(req, res){
 		res.status(200).send("Thus is me sending a message");
 		appMain.sendMessageToUser("travis", "test test test");
-
 	});
+
+	//Need more routes:
+	//	Matching users
+	//	GetMessage/Translate/SendMessage
+	//	
 
 	app.post('/login', upload.array(), function(req, res){
 		var sql = "SELECT * FROM users WHERE Email = ? AND Password = ?"
@@ -75,6 +77,48 @@ module.exports = function (app) {
 
 		res.status(200).send("Successfully signed up!")
 	});
+
+	app.post('/getConnection', upload.array(), function(req, res) {
+		var sql = "SELECT * FROM users WHERE id = ?"
+		var params = [
+			req.body.FromId
+		]
+
+		var query = connection.query(sql, params, function(err, result) {
+			if (!err) {
+				params = [
+					result[0]['DesiredCountry'],
+					result[0]['id'],
+					result[0]['Interest']
+				]
+
+				sql = "SELECT Name, Country, Interest, Token FROM users WHERE Country = ? AND id NOT IN ?\
+						 AND Interest = ? ORDER BY RAND() LIMIT 1"
+
+				query = connection.query(sql, params, function(err, result) {
+					if (!err) {
+						res.status(200).send(result[0])
+					} else {
+						params.pop()
+
+						sql = "SELECT Name, Country, Interest, Token FROM users WHERE Country = ?\
+								 AND id NOT IN (?) ORDER BY RAND() LIMIT 1"
+						
+						query = connection.query(sql, params, function(err, result) {
+							if (!err && typeof result[0] != 'undefined') {
+								res.status(200).send(result[0])
+							} else {
+								console.log('Error retrieving from table: ', query.sql)
+								res.status(501).send("No matches found")
+							}
+						});
+					}
+				});
+			} else {
+				res.status(501).send("No matches found")
+			}
+		});
+	})
 
 
 	app.post('/messagepost', function(req, res){

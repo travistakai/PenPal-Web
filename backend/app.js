@@ -46,6 +46,7 @@ app.listen(config.PORT, function(){
 			}
 		}
 */
+//Functions used by the routes.js file
 function sendMessageToUser(user, message){
 	request({
 		// Google api that our message is posted to
