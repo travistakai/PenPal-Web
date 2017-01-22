@@ -5,8 +5,6 @@ var upload = multer()
 var mysql = require('mysql');
 var crypto = require('crypto');
 
-
-
 var connection = mysql.createConnection({
 	host     : config.HOST,
 	user     : config.USER,
@@ -23,8 +21,12 @@ module.exports = function (app) {
 	app.get('/messaging', function(req, res){
 		res.status(200).send("Thus is me sending a message");
 		appMain.sendMessageToUser("travis", "test test test");
-
 	});
+
+	//Need more routes:
+	//	Matching users
+	//	GetMessage/Translate/SendMessage
+	//	
 
 	app.post('/login', upload.array(), function(req, res){
 		var sql = "SELECT * FROM users WHERE Email = ? AND Password = ?"
