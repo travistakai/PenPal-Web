@@ -29,6 +29,7 @@ require("./routes/routes.js")(app);
 
 app.listen(config.PORT, function(){
 	console.log("Listening on port ${config.PORT}");
+	console.log('I love Brad');
 });
 
 
