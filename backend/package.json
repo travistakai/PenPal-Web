@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@google-cloud/translate": "^0.6.1",
+    "body-parser": "^1.16.0",
     "crypto": "0.0.3",
     "express": "4.0.0",
     "fcm": "^1.0.3",
