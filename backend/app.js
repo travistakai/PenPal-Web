@@ -1,8 +1,6 @@
-// Framework we built platform in
 var express = require('express');
-// variable for handling app needs
 var app = express();
-// For http handling
+
 var path = require('path');
 var fs = require('fs');
 var request = require('request');
@@ -14,22 +12,20 @@ const Translate = require('@google-cloud/translate');
 // Firebase cloud message service
 var FCM = require('fcm-node'); 
 var fcm = new FCM(config.SK);
-// For our password hashing/salt functions
+
 var crypto = require('crypto');
 
-// Config file holding our sensitive info
-// included in our .gitignore
 var config = require('./configure.js')
 
 app.use(express.static('public'));
 
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// external routes folder holding our routes
+// external routes folder
 require("./routes/routes.js")(app);
 
-// Listen on port 
+// Listen on port specified
 app.listen(config.PORT, function(){
 	console.log("Listening on port " + config.PORT);
 });
@@ -46,19 +42,15 @@ app.listen(config.PORT, function(){
 			}
 		}
 */
-//Functions used by the routes.js file
 function sendMessageToUser(user, message){
 	request({
-		// Google api that our message is posted to
 		url: 'https://fcm.googleapis.com/fcm/send',
 		method: 'POST',
 		headers: {
 			'Content-Type' : 'application/json',
 			'Authorization' : 'key=' + config.SK
 		},
-		// json format
 		body : message
-	// Error checking
 	}, function(error, response, body){
 		if(error){
 			console.log(error, response, body);
@@ -69,12 +61,10 @@ function sendMessageToUser(user, message){
 		}
 	});
 }
-// Export function for use in routes
 exports.sendMessageToUser = sendMessageToUser;
 
 
 // Google API function to translate messages in real time
-
 function translateText(input, target_lang){
 	if (!Array.isArray(input)) {
 		input = [input];
@@ -109,7 +99,6 @@ function genRandomString(length){
             .toString('hex') /** convert to hexadecimal format */
             .slice(0,length);   /** return required number of characters */
 };
-
 
 function hash(password, salt){
 	var res = crypto.createHmac('sha512', salt);

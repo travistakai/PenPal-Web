@@ -13,47 +13,28 @@ var connection = mysql.createConnection({
 });
 
 module.exports = function (app) {
-    // set up the routes themselves
-    app.get('/', function(req, res){
-		res.status(200).send("This is the landing page");
-	});
 
-	app.get('/messaging', function(req, res){
-		res.status(200).send("Thus is me sending a message");
-		appMain.sendMessageToUser("travis", "test test test");
-	});
-
-	//Need more routes:
-	//	Matching users
-	//	GetMessage/Translate/SendMessage
-	//	
-
-	app.post('/login', upload.array(), function(req, res){
+	app.post('/login', upload.array(), function(req, res) {
 		var sql = "SELECT * FROM users WHERE Email = ? AND Password = ?"
-
 		var params = [
 			req.body.Email,
 			appMain.hash(req.body.Password, config.SALT).passwordHash
 		]
 
-		// console.log(params)
 		var query = connection.query(sql, params, function(err, rows) {
 			console.log(rows)
 			if(!err) {
 				res.status(200).send("Successfully logged in!")
 			} else {
-				res.status(403).send("Incorrect password, try again:")
-				// console.log(query)
+				res.status(501).send("Incorrect password, try again")
 			}
 		});
 	})
 
-	app.post('/signup', upload.array(), function(req, res){
-
+	app.post('/signup', upload.array(), function(req, res) {
 		var sql = "INSERT INTO users SET Name = ?, Email = ?, Password = ?, \
 					Country = ?, CountryCode = ?, DesiredCountry = ?, \
 					DesiredCountryCode = ?, Interest = ?, Token = ?"
-
 		var params = [
 			req.body.Name,
 			req.body.Email,
@@ -66,24 +47,24 @@ module.exports = function (app) {
 			req.body.Token
 		]
 
-		console.log(params)
 		var query = connection.query(sql, params, function(err, result) {
 			if (!err) {
 				console.log('User signed up')
-			} else{
+				res.status(200).send("Successfully signed up!")
+			} else {
 				console.log('Error inserting into table: ', query.sql)
 			}
 		});
-
-		res.status(200).send("Successfully signed up!")
 	});
 
-	app.post('/getConnection', upload.array(), function(req, res) {
+	// Returns a new match with a user based on desired country and shared interest
+	app.post('/getMatch', upload.array(), function(req, res) {
 		var sql = "SELECT * FROM users WHERE id = ?"
 		var params = [
 			req.body.FromId
 		]
 
+		// try to find a match based on country and interest first
 		var query = connection.query(sql, params, function(err, result) {
 			if (!err) {
 				params = [
@@ -99,7 +80,7 @@ module.exports = function (app) {
 					if (!err) {
 						res.status(200).send(result[0])
 					} else {
-						params.pop()
+						params.pop() // remove "Interest" from query if no match is found
 
 						sql = "SELECT Name, Country, Interest, Token FROM users WHERE Country = ?\
 								 AND id NOT IN (?) ORDER BY RAND() LIMIT 1"
@@ -124,13 +105,13 @@ module.exports = function (app) {
 	app.post('/messagepost', function(req, res){
 		// console.log(res.body); // json
 		// should be the form 
-			/*body {
+		/*	body {
 				to_id : (int) user table
 				from_id : (int) user_table
 				content : string/plain_text
 				date_time_sent : date
 		*/
-		//--------------------------------------------------------------------------------------------
+
 		var jsoncontent = JSON.parse(response.body);
 
 		var jsoncontent = {
@@ -140,8 +121,7 @@ module.exports = function (app) {
 			date_time_sent : "10/10/10"
 		};
 
-		connection.query('SELECT * FROM users WHERE id=' + connection.escape(jsoncontent.to_id), function(err, rows){
-			// connection.query('SELECT * FROM users WHERE id=1', function(err, rows){
+		connection.query('SELECT * FROM users WHERE id=' + connection.escape(jsoncontent.to_id), function(err, rows) {
 			if(err){
 				console.log("Error slected from DB: line 98");
 			}else{
@@ -162,4 +142,3 @@ module.exports = function (app) {
 		});
 	});
 };
-
